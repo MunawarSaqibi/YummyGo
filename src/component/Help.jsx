@@ -9,6 +9,8 @@ const faqs = [
 
 const Help = () => {
     const [openIndex, setOpenIndex] = useState(0);
+    const [search, setSearch] = useState("");
+    const visibleFaqs = faqs.filter((faq) => `${faq.question} ${faq.answer}`.toLowerCase().includes(search.toLowerCase()));
 
     return (
         <main className="support-page help-page">
@@ -18,14 +20,14 @@ const Help = () => {
                     <h1>How can we help?</h1>
                     <p>Find answers or reach out to our support team.</p>
                 </div>
-                <div className="help-search"><span aria-hidden="true">⌕</span><input aria-label="Search help topics" placeholder="Search for help topics" /></div>
+                <div className="help-search"><span aria-hidden="true">⌕</span><input value={search} onChange={(event) => setSearch(event.target.value)} aria-label="Search help topics" placeholder="Search for help topics" /></div>
             </section>
 
             <section className="help-layout">
                 <div className="help-main">
                     <div className="support-section-heading"><div><span className="section-kicker">Popular questions</span><h2>Frequently asked questions</h2></div></div>
                     <div className="faq-list">
-                        {faqs.map((faq, index) => (
+                        {visibleFaqs.map((faq, index) => (
                             <article className={`faq-card${openIndex === index ? " open" : ""}`} key={faq.question}>
                                 <button type="button" onClick={() => setOpenIndex(openIndex === index ? -1 : index)} aria-expanded={openIndex === index}>
                                     <span>{faq.question}</span><b>{openIndex === index ? "−" : "+"}</b>
@@ -33,13 +35,14 @@ const Help = () => {
                                 {openIndex === index && <p>{faq.answer}</p>}
                             </article>
                         ))}
+                        {!visibleFaqs.length && <div className="restaurant-status-card"><h2>No matching answers</h2><p>Try another topic or contact support.</p></div>}
                     </div>
                 </div>
                 <aside className="help-contact-card">
                     <span className="help-contact-icon" aria-hidden="true">🎧</span>
                     <h3>Still need help?</h3>
                     <p>Our support team is available every day from 8 AM to 11 PM.</p>
-                    <button type="button">Chat with support</button>
+                    <button type="button" onClick={() => { const message = window.prompt("Describe what you need help with"); if (message?.trim()) window.alert("Support request received. Our team will contact you shortly."); }}>Chat with support</button>
                     <a href="mailto:support@yummygo.example">support@yummygo.example</a>
                 </aside>
             </section>

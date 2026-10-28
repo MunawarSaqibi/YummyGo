@@ -1,4 +1,6 @@
- export const Applogo="https://ik.imagekit.io/marSaQ/YummyGoLogo.png"
+import YummyGoBannerBackground from "../../assets/YummyGoBannerBackground.jpg";
+
+export const Applogo="https://ik.imagekit.io/marSaQ/YummyGoLogo.png"
 export const notifyIcon="https://th.bing.com/th/id/OIP.2vE1yVfGk4-nKYyrkYndkQHaHa?w=196&h=196&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
  export const twitterIcon="https://th.bing.com/th/id/OIP.uQlQc1ej3xTRMpywzGuFvAHaHw?w=191&h=200&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
  export const instaIcon="https://th.bing.com/th/id/OIP.Lnr68x82-ZVmHGR78pgO-wHaHa?w=193&h=194&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
@@ -7,7 +9,7 @@ export const notifyIcon="https://th.bing.com/th/id/OIP.2vE1yVfGk4-nKYyrkYndkQHaH
  export const swiggyURL ="https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.374638644228302&lng=78.4300148114562&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
  export const cartIcon="https://cdn-icons-png.flaticon.com/512/8906/8906369.png"
 
- export const Bannerbg="https://ik.imagekit.io/marSaQ/YummyGoBannerBackground.png"
+export const Bannerbg = YummyGoBannerBackground;
 
  export const BiryaniPNG="https://tse2.mm.bing.net/th/id/OIP.zAslLWVgQnn-WXjTnQFeyAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
  export const PizzaPNG="https://tse4.mm.bing.net/th/id/OIP.hixP7q3S8fvWsLhw0nu61QHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
