@@ -15,7 +15,10 @@ YummyGo is a responsive React food-delivery website with restaurant discovery, m
 - Grocery categories, search, location selection, and product cart controls
 - Dine-out search, location selection, reservations, and reservation history
 - Copyable offer coupons and searchable help/FAQ content
-- Responsive desktop and mobile layouts
+- Responsive desktop, mobile, and Android layouts
+- Installable PWA experience with standalone display and offline app-shell caching
+- Fixed Android-style mobile bottom navigation with safe-area support
+- Touch-friendly controls and adaptive single/two-column mobile grids
 
 ## Routes
 

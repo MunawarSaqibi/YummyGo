@@ -1,0 +1,14 @@
+{
+  "name": "YummyGo Food Delivery",
+  "short_name": "YummyGo",
+  "description": "Food delivery, groceries, dine-out, offers, and cart",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f8f8f7",
+  "theme_color": "#ed3151",
+  "icons": [
+    { "src": "assets/yummygo-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

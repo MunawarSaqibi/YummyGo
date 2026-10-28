@@ -49,6 +49,10 @@ const routerApp = createBrowserRouter([
             {
                 path: "/GoDineOut",
                 element: <Suspense fallback={<div className="page-loading">Loading restaurants...</div>}><DineOut /></Suspense>
+            },
+            {
+                path: "*",
+                element: <Error />
             }
         ],
         errorElement: <Error />
@@ -57,3 +61,9 @@ const routerApp = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={routerApp} />);
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register(new URL("./sw.js", import.meta.url)).catch(() => {});
+    });
+}

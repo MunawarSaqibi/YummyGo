@@ -47,7 +47,7 @@ const HeroDiv = () => {
                 </div>
                 <div className="top-categories">
                     {categories.map((category) => (
-                        <Link className="category-card" to="/restaurants" key={category.name}>
+                        <Link className="category-card" to={`/restaurants?q=${encodeURIComponent(category.name)}`} key={category.name}>
                             <span className="category-image-wrap"><img className="categoryImg" src={category.image} alt={category.name} /></span>
                             <strong>{category.name}</strong>
                         </Link>
