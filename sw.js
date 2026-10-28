@@ -1,4 +1,4 @@
-const CACHE_NAME = "yummygo-v2";
+const CACHE_NAME = "yummygo-v3";
 const APP_SHELL = ["/", "/index.html", "/main.css"];
 
 self.addEventListener("install", (event) => {
