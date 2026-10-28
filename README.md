@@ -1,12 +1,14 @@
+<div align="center">
+  <img src="https://ik.imagekit.io/marSaQ/YummyGoLogo.png" alt="YummyGo logo" width="220">
+</div>
+
 # YummyGo Food Delivery Website
 
 YummyGo is a responsive React food-delivery website with restaurant discovery, menu browsing, grocery shopping, dine-out reservations, offers, help, and a persistent shopping cart.
 
-![YummyGo banner](assets/YummyGoBannerBackground.jpg)
-
 ## Features
 
-- Professional home page with the original banner background
+- Professional food-delivery home page
 - Route-aware headers for food delivery, grocery, and dine-out
 - Searchable restaurant listings with rating and delivery-time filters
 - Flexible restaurant-menu loading for changing Swiggy API response shapes
@@ -74,7 +76,7 @@ The production output is generated in the `dist` directory.
 ## Project Structure
 
 ```text
-assets/                  Local website assets, including the banner background
+assets/                  Local brand and application assets
 src/component/           Pages and reusable UI components
 src/context/             Shared application state and cart provider
 src/utils/               API constants and custom React hooks
@@ -91,7 +93,7 @@ main.css                 Shared responsive styles
 
 ## Assets
 
-The banner and brand assets are stored in or referenced through `assets/` and `src/utils/constants.jsx`. External category and restaurant images are loaded where required by the API or asset constants.
+Brand assets are referenced through `assets/` and `src/utils/constants.jsx`. The YummyGo logo is loaded from the configured logo URL, and external category and restaurant images are loaded where required.
 
 ## Notes
 
