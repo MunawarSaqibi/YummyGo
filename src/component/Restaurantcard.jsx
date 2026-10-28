@@ -5,8 +5,10 @@ const Restaurantcard = ({ resData = {} }) => {
         name = "Restaurant",
         cuisines = [],
         avgRating,
+        avgRatingString,
         sla = {},
         costForTwo = "",
+        costForTwoMessage = "",
         cloudinaryImageId,
         areaName = "Nearby"
     } = resData;
@@ -19,12 +21,12 @@ const Restaurantcard = ({ resData = {} }) => {
                 {cloudinaryImageId ? (
                     <img className="item-img" src={`${ImageBasicUrl}${cloudinaryImageId}`} alt={name} loading="lazy" />
                 ) : <div className="item-img-placeholder">🍽️</div>}
-                {avgRating && <span className="rating-badge">★ {avgRating}</span>}
+                {(avgRating || avgRatingString) && <span className="rating-badge">★ {avgRating || avgRatingString}</span>}
             </div>
             <div className="item-res">{name}</div>
             <div className="item-cuisine">{cuisines.length ? cuisines.join(", ") : "Popular dishes"}</div>
             <div className="item-loc"><span>📍 {areaName}</span><span>⏱️ {deliveryTime} min</span></div>
-            {costForTwo && <div className="item-rp"><span>Cost for two</span><strong>{costForTwo}</strong></div>}
+            {(costForTwo || costForTwoMessage) && <div className="item-rp"><span>Cost for two</span><strong>{costForTwoMessage || `₹${costForTwo}`}</strong></div>}
         </article>
     );
 };
