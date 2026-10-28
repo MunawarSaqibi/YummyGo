@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Serve the app shell for client-side routes (e.g. /restaurantsMenu/123) so
+# refreshing, sharing links, or reopening the installed app doesn't 404.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

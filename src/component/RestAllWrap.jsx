@@ -37,7 +37,7 @@ export const RestAllWrap = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [query, setQuery] = useState(searchParams.get("q") || "");
     const [filter, setFilter] = useState("all");
-    const [retryKey, setRetryKey] = useState(0);
+    const [reloadKey, setReloadKey] = useState(0);
 
     useEffect(() => {
         const nextQuery = searchParams.get("q") || "";
@@ -64,7 +64,7 @@ export const RestAllWrap = () => {
 
         getData();
         return () => controller.abort();
-    }, [retryKey]);
+    }, [reloadKey]);
 
     const filteredRestaurants = useMemo(() => {
         const search = query.trim().toLowerCase();
@@ -121,7 +121,7 @@ export const RestAllWrap = () => {
                 <div className="restaurant-status-card" role="alert">
                     <h2>Couldn’t load restaurants</h2>
                     <p>{error}</p>
-                    <button className="restaurant-retry-button" type="button" onClick={() => setRetryKey((current) => current + 1)}>Try again</button>
+                    <button className="restaurant-retry-button" type="button" onClick={() => { setHotelList(null); setError(null); setReloadKey((key) => key + 1); }}>Try again</button>
                 </div>
             ) : filteredRestaurants.length === 0 ? (
                 <div className="restaurant-status-card">
