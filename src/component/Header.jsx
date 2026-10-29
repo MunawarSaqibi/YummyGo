@@ -14,9 +14,13 @@ const InstallAppButton = ({ compact = false }) => {
             event.preventDefault();
             window.__yummygoInstallPrompt = event;
             setPromptEvent(event);
+            setShowInstructions(false);
         };
         const handleInstallable = (event) => {
-            if (event.detail) setPromptEvent(event.detail);
+            if (event.detail) {
+                setPromptEvent(event.detail);
+                setShowInstructions(false);
+            }
         };
         const handleAppInstalled = () => {
             window.__yummygoInstallPrompt = null;

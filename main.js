@@ -70,8 +70,8 @@ window.addEventListener("beforeinstallprompt", (event) => {
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register(new URL("./sw.js", import.meta.url), { scope: "./" })
+        navigator.serviceWorker.register(new URL("./sw.js", import.meta.url), { scope: "/" })
             .then((registration) => registration.update())
-            .catch(() => {});
+            .catch((error) => console.error("YummyGo service worker registration failed:", error));
     });
 }
