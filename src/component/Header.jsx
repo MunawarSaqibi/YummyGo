@@ -5,33 +5,44 @@ import useOnlineStatus from "../utils/useOnlineStatus";
 import { useCart } from "../context/CartContext";
 
 const InstallAppButton = ({ compact = false }) => {
-    const [promptEvent, setPromptEvent] = useState(null);
+    const [promptEvent, setPromptEvent] = useState(() => window.__yummygoInstallPrompt || null);
     const [showInstructions, setShowInstructions] = useState(false);
     const [isInstalled, setIsInstalled] = useState(() => window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true);
 
     useEffect(() => {
         const handleBeforeInstallPrompt = (event) => {
             event.preventDefault();
+            window.__yummygoInstallPrompt = event;
             setPromptEvent(event);
         };
+        const handleInstallable = (event) => {
+            if (event.detail) setPromptEvent(event.detail);
+        };
         const handleAppInstalled = () => {
+            window.__yummygoInstallPrompt = null;
             setPromptEvent(null);
             setShowInstructions(false);
             setIsInstalled(true);
         };
 
         window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+        window.addEventListener("yummygo-installable", handleInstallable);
         window.addEventListener("appinstalled", handleAppInstalled);
         return () => {
             window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+            window.removeEventListener("yummygo-installable", handleInstallable);
             window.removeEventListener("appinstalled", handleAppInstalled);
         };
     }, []);
 
     const handleInstall = async () => {
-        if (promptEvent) {
-            promptEvent.prompt();
-            await promptEvent.userChoice.catch(() => null);
+        const availablePrompt = promptEvent || window.__yummygoInstallPrompt;
+        if (availablePrompt) {
+            try {
+                await availablePrompt.prompt();
+                await availablePrompt.userChoice;
+            } catch {}
+            window.__yummygoInstallPrompt = null;
             setPromptEvent(null);
             return;
         }

@@ -62,8 +62,16 @@ const routerApp = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={routerApp} />);
 
+window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    window.__yummygoInstallPrompt = event;
+    window.dispatchEvent(new CustomEvent("yummygo-installable", { detail: event }));
+});
+
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register(new URL("./sw.js", import.meta.url)).catch(() => {});
+        navigator.serviceWorker.register(new URL("./sw.js", import.meta.url), { scope: "./" })
+            .then((registration) => registration.update())
+            .catch(() => {});
     });
 }
