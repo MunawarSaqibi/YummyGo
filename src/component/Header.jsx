@@ -74,7 +74,14 @@ const InstallAppButton = ({ compact = false }) => {
                                 </ol>
                             </div>
                         ) : (
-                            <p>Open this website in Chrome, Edge, or another supported browser, then use its menu and choose <strong>Install app</strong> or <strong>Add to Home screen</strong>.</p>
+                            <div className="ios-install-steps">
+                                <p>Open YummyGo in Chrome or Edge on Android.</p>
+                                <ol>
+                                    <li>Tap the browser <strong>menu</strong> button.</li>
+                                    <li>Choose <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li>
+                                    <li>Confirm the installation.</li>
+                                </ol>
+                            </div>
                         )}
                         <button className="install-modal-action" type="button" onClick={() => setShowInstructions(false)}>Got it</button>
                     </div>
