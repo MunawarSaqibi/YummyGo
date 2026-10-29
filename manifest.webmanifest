@@ -2,13 +2,19 @@
   "name": "YummyGo Food Delivery",
   "short_name": "YummyGo",
   "description": "Food delivery, groceries, dine-out, offers, and cart",
+  "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "orientation": "portrait-primary",
   "background_color": "#f8f8f7",
   "theme_color": "#ed3151",
+  "categories": ["food", "shopping", "lifestyle"],
   "icons": [
-    { "src": "assets/yummygo-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "/assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/assets/yummygo-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ]
 }

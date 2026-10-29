@@ -48,23 +48,20 @@ const getIntroTheme = (pathname) => {
         tagline: "Find a table worth reserving",
         illustration: "dineout"
     };
-    return {
-        key: "standard",
+    if (pathname === "/restaurants" || pathname.startsWith("/restaurantsMenu/")) return {
+        key: "restaurants",
         className: "app-intro--standard",
-        label: "YummyGo",
+        label: "Restaurants",
         tagline: "Good food, delivered",
         illustration: "standard"
     };
+    return null;
 };
 
 const RouteIntro = () => {
     const { pathname } = useLocation();
     const theme = getIntroTheme(pathname);
-    const storageKey = `yummygo-intro-${theme.key}-seen`;
-    const [visible, setVisible] = useState(() => {
-        try { return sessionStorage.getItem(storageKey) !== "true"; }
-        catch { return true; }
-    });
+    const [visible, setVisible] = useState(false);
     const [leaving, setLeaving] = useState(false);
     const [logoReady, setLogoReady] = useState(false);
 
@@ -82,32 +79,40 @@ const RouteIntro = () => {
     }, []);
 
     useEffect(() => {
-        const seen = (() => {
-            try { return sessionStorage.getItem(storageKey) === "true"; }
-            catch { return false; }
-        })();
-        if (seen || !logoReady) {
-            setVisible(seen ? false : visible);
+        if (!theme) {
+            setVisible(false);
+            setLeaving(false);
             return;
         }
 
+        const storageKey = `yummygo-intro-${theme.key}-seen`;
+        let seen = false;
+        try { seen = sessionStorage.getItem(storageKey) === "true"; }
+        catch {}
+
+        if (seen) {
+            setVisible(false);
+            setLeaving(false);
+            return;
+        }
+
+        try { sessionStorage.setItem(storageKey, "true"); }
+        catch {}
+
         setVisible(true);
         setLeaving(false);
+
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         const introDelay = reduceMotion ? 250 : 1350;
         const exitTimer = window.setTimeout(() => setLeaving(true), introDelay);
-        const hideTimer = window.setTimeout(() => {
-            setVisible(false);
-            try { sessionStorage.setItem(storageKey, "true"); }
-            catch {}
-        }, introDelay + (reduceMotion ? 50 : 450));
+        const hideTimer = window.setTimeout(() => setVisible(false), introDelay + (reduceMotion ? 50 : 450));
         return () => {
             window.clearTimeout(exitTimer);
             window.clearTimeout(hideTimer);
         };
-    }, [pathname, storageKey, logoReady]);
+    }, [pathname]);
 
-    if (!visible) return null;
+    if (!visible || !theme) return null;
 
     return (
         <div className={`app-intro ${theme.className}${leaving ? " is-leaving" : ""}`} role="status" aria-label={`Loading YummyGo ${theme.label}`}>

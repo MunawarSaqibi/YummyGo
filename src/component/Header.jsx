@@ -4,6 +4,75 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import { useCart } from "../context/CartContext";
 
+const InstallAppButton = ({ compact = false }) => {
+    const [promptEvent, setPromptEvent] = useState(null);
+    const [showInstructions, setShowInstructions] = useState(false);
+    const [isInstalled, setIsInstalled] = useState(() => window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true);
+
+    useEffect(() => {
+        const handleBeforeInstallPrompt = (event) => {
+            event.preventDefault();
+            setPromptEvent(event);
+        };
+        const handleAppInstalled = () => {
+            setPromptEvent(null);
+            setShowInstructions(false);
+            setIsInstalled(true);
+        };
+
+        window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+        window.addEventListener("appinstalled", handleAppInstalled);
+        return () => {
+            window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+            window.removeEventListener("appinstalled", handleAppInstalled);
+        };
+    }, []);
+
+    const handleInstall = async () => {
+        if (promptEvent) {
+            promptEvent.prompt();
+            await promptEvent.userChoice.catch(() => null);
+            setPromptEvent(null);
+            return;
+        }
+        setShowInstructions(true);
+    };
+
+    if (isInstalled) return null;
+
+    const isiOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.MSStream;
+
+    return (
+        <>
+            <button className={`install-app-button${compact ? " is-compact" : ""}`} type="button" onClick={handleInstall} aria-haspopup="dialog">
+                <span aria-hidden="true">↓</span>{!compact && <strong>Install App</strong>}
+            </button>
+            {showInstructions && (
+                <div className="install-modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setShowInstructions(false); }}>
+                    <div className="install-modal" role="dialog" aria-modal="true" aria-labelledby="install-app-title">
+                        <button className="install-modal-close" type="button" aria-label="Close install instructions" onClick={() => setShowInstructions(false)}>×</button>
+                        <div className="install-modal-icon" aria-hidden="true">↓</div>
+                        <h2 id="install-app-title">Install YummyGo</h2>
+                        {isiOS ? (
+                            <div className="ios-install-steps">
+                                <p>Add YummyGo to your Home Screen for quick, app-like access.</p>
+                                <ol>
+                                    <li>Tap the <strong>Share</strong> button in Safari.</li>
+                                    <li>Scroll down and choose <strong>Add to Home Screen</strong>.</li>
+                                    <li>Tap <strong>Add</strong> to finish.</li>
+                                </ol>
+                            </div>
+                        ) : (
+                            <p>Open this website in Chrome, Edge, or another supported browser, then use its menu and choose <strong>Install app</strong> or <strong>Add to Home screen</strong>.</p>
+                        )}
+                        <button className="install-modal-action" type="button" onClick={() => setShowInstructions(false)}>Got it</button>
+                    </div>
+                </div>
+            )}
+        </>
+    );
+};
+
 const MobileBottomNav = ({ mode = "home", itemCount = 0 }) => {
     const labels = mode === "grocery"
         ? [["/", "Home", "⌂"], ["/groceryGo", "Grocery", "🛒"], ["/offers", "Offers", "%"], ["/cart", "Cart", "🛍"]]
@@ -52,6 +121,7 @@ const MobileMenu = ({ itemCount = 0 }) => {
 
     return (
         <div className="mobile-menu-wrap">
+            <InstallAppButton compact />
             <button
                 className={`hamburger-button${open ? " is-open" : ""}`}
                 type="button"
@@ -114,6 +184,7 @@ const Header = () => {
                 <nav className="nav-bar special-nav" aria-label="Grocery navigation">
                     <ul>
                         <li><Link className="nav-option" to="/offers">Offers</Link></li>
+                        <li className="install-nav-item"><InstallAppButton /></li>
                         <li><Link className="account-button" to="/cart"><span>👤</span> Account</Link></li>
                         <li><Link className="nav-option cart-link grocery-cart" to="/cart" aria-label="Grocery cart"><img className="cartIcon" src={cartIcon} alt="" /><b>{itemCount}</b></Link></li>
                     </ul>
@@ -144,6 +215,7 @@ const Header = () => {
                     <ul>
                         <li><Link className="nav-option" to="/offers">Offers</Link></li>
                         <li><Link className="nav-option" to="/help">Help</Link></li>
+                        <li className="install-nav-item"><InstallAppButton /></li>
                         <li><button className="reserve-button" type="button" onClick={() => window.dispatchEvent(new CustomEvent("yummygo-show-reservations"))}>My reservations</button></li>
                     </ul>
                 </nav>
@@ -169,6 +241,7 @@ const Header = () => {
                     <li><Link className="nav-option" to="/restaurants">Restaurants</Link></li>
                     <li><Link className="nav-option" to="/offers">Offers</Link></li>
                     <li><Link className="nav-option" to="/help">Help</Link></li>
+                    <li className="install-nav-item"><InstallAppButton /></li>
                     <li><Link className="nav-option cart-link" to="/cart" aria-label="Cart"><img className="cartIcon" src={cartIcon} alt="" />{itemCount > 0 && <b className="header-cart-count">{itemCount}</b>}</Link></li>
                 </ul>
             </nav>
